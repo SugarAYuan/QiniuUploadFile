@@ -7,9 +7,9 @@
     "database": "test"
   },
   "qiniu_config" : {
-    "accessKey" : "Om2lW-AO06yZH9IsB9Tb3pgVDoMlIepfWUV47lx4",
-    "secretKey" : "029U8bQNRc51FnyHczbLOwzxgDrCnKsxKhWotSJ5",
+    "accessKey" : "***********",
+    "secretKey" : "***********",
     "bucket"    : "video",
-    "url"       : "http://p70g6zryo.bkt.clouddn.com/"
+    "url"       : "http://****.bkt.clouddn.com/"
   }
 }
