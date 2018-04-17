@@ -13,10 +13,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"database/sql"
 )
-
-var  downLoadDirPath , accessKey , secretKey , upToken , key , videoDomain string
-var  cfg storage.Config
-var  config parseConfig.Config
+var(
+	downLoadDirPath , accessKey , secretKey , upToken , key , videoDomain string
+	cfg storage.Config
+	config parseConfig.Config
+)
 
 // 自定义返回值结构体
 type MyPutRet struct {
@@ -28,6 +29,7 @@ type MyPutRet struct {
 }
 
 func main () {
+	//取出配置文件
 	config = parseConfig.New("./config.json")
 	//七牛云配置
 	downLoadDirPath = "./"
@@ -98,7 +100,7 @@ func downLoad (fileName , fileUrl string) {
 	io.Copy(file , fileRes.Body)
 	formUploader := storage.NewFormUploader(&cfg)
 	ret := MyPutRet{}
-
+	//上传文件到七牛云服务器
 	err = formUploader.PutFile(context.Background() , &ret , upToken , key , file.Name() , nil)
 
 	if err != nil {
@@ -106,7 +108,7 @@ func downLoad (fileName , fileUrl string) {
 		return
 	}
 
-	//mysql配置
+	//获取mysql配置
 	host :=  config.Get("mysql_config > host").(string)
 	user :=  config.Get("mysql_config > user").(string)
 	passwd :=  config.Get("mysql_config > passwd").(string)
@@ -116,16 +118,8 @@ func downLoad (fileName , fileUrl string) {
 	db , _ := sql.Open("mysql" , user + ":" + passwd + "@tcp(" + host + ":" + port +")/" + database + "?charset=utf8")
 	defer db.Close()
 	videoUrl := videoDomain + key
-	//destStr , err := iconv.Open("utf-8","gb2312")
-	//if err != nil{
-	//	fmt.Println("iconv.Openfailed!")
-	//}
-	//
-	//defer destStr.Close()
+
 	//插入数据
 	db.Exec("insert into video(name,url) values('"+ key +"', '"+ videoUrl +"')");
-	//ins_id, _ := res.LastInsertId();
-	//fmt.Println(ins_id);
-	//fmt.Println(ret)
 }
 
