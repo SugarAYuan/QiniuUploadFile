@@ -1,7 +1,12 @@
-#数据库
+## 这是一个七牛云的上传文件服务
+
+- config.json为配置文件 如果不需要数据库请注释相关入库程序后重新编译
+- videoTest 为编译好的可执行文件可直接运行
+
+> 数据库
 
 ```mysql
-REATE TABLE `video` (
+CREATE TABLE `video` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '订单id',
   `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '地址',
